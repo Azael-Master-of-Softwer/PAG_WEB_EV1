@@ -1,0 +1,409 @@
+/* =========================================================
+   TIENDA - style.css
+   Se carga DESPUÉS de bootstrap.min.css, así que estas reglas
+   ganan por orden de cascada (no necesitamos !important).
+   ========================================================= */
+
+/* ---- Tipografías ---- */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Inter:wght@400;500;600&display=swap');
+
+/* ---- Paleta de la marca, como variables CSS reutilizables ---- */
+:root {
+    --color-fondo: #FAF7F0;      /* crema cálido, fondo general */
+    --color-oscuro: #1F3A38;     /* verde bosque, navbar/footer */
+    --color-acento: #C9642C;     /* terracota/naranja quemado, botones y detalles */
+    --color-texto: #2B2B28;      /* casi negro cálido, texto principal */
+    --color-borde: #E4DCC8;      /* beige suave para bordes/tarjetas */
+
+    --fuente-titulo: 'Fraunces', serif;
+    --fuente-texto: 'Inter', sans-serif;
+}
+
+body {
+    font-family: var(--fuente-texto);
+    color: var(--color-texto);
+    background-color: var(--color-fondo);
+}
+
+h1, h2, h3, h4, .navbar-brand {
+    font-family: var(--fuente-titulo);
+}
+
+/* =========================================================
+   CARRUSEL
+   ========================================================= */
+.carousel-slide-bg {
+    height: 320px;
+    background: linear-gradient(135deg, var(--color-oscuro), #2E5450);
+}
+
+.carousel-slide-bg-2 {
+    background: linear-gradient(135deg, var(--color-acento), #A8501F);
+}
+
+.carousel-slide-bg-3 {
+    background: linear-gradient(135deg, #4C8C6B, #2E5450);
+}
+
+.carousel-slide-bg h3 {
+    font-family: var(--fuente-titulo);
+}
+
+/* Los indicadores por defecto son delgaditos y grises;
+   los agrandamos un poco y usamos el color de acento */
+.carousel-indicators [data-bs-target] {
+    background-color: var(--color-acento);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* =========================================================
+   CARRITO FLOTANTE
+   ========================================================= */
+.carrito-widget {
+    position: fixed;
+    top: 72px;           /* justo debajo del navbar */
+    right: 20px;
+    z-index: 1030;
+}
+
+.carrito-boton {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--color-acento);
+    color: #fff;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.carrito-boton:hover {
+    transform: scale(1.06);
+}
+
+.carrito-contador {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background-color: var(--color-oscuro);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: none;              /* JS lo muestra cuando hay >0 items */
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.carrito-panel {
+    position: absolute;
+    top: 62px;
+    right: 0;
+    width: 300px;
+    max-height: 0;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: max-height 0.25s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Esta clase la agrega/quita el JS al abrir y cerrar */
+.carrito-panel-abierto {
+    max-height: 420px;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.carrito-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-borde);
+    font-family: var(--fuente-titulo);
+}
+
+.carrito-lista {
+    max-height: 260px;
+    overflow-y: auto;
+    padding: 0.5rem 1rem;
+}
+
+.carrito-vacio {
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+}
+
+.carrito-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+.carrito-item:last-child {
+    border-bottom: none;
+}
+
+.carrito-item-info {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.85rem;
+}
+
+.carrito-item-nombre {
+    font-weight: 600;
+    color: var(--color-texto);
+}
+
+.carrito-item-detalle {
+    color: #8A8A80;
+    font-size: 0.78rem;
+}
+
+.carrito-item-derecha {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.carrito-item-subtotal {
+    font-weight: 600;
+    color: var(--color-acento);
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.carrito-item-quitar {
+    border: none;
+    background: none;
+    color: #B8412A;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 2px;
+}
+
+.carrito-panel-footer {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--color-borde);
+    background-color: var(--color-fondo);
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+.navbar {
+    background-color: var(--color-oscuro) !important;
+    /* !important aquí sí se justifica: Bootstrap define bg-dark
+       con su propia clase de utilidad y queremos el color exacto
+       de la marca, no el gris genérico de Bootstrap */
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    position: relative;
+}
+
+/* Subrayado animado al pasar el mouse, en vez del azul por defecto */
+.nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-acento);
+    transition: width 0.25s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* =========================================================
+   HEADER / HERO
+   ========================================================= */
+header#inicio {
+    background-color: var(--color-fondo) !important;
+    border-bottom: 1px solid var(--color-borde);
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+}
+
+header#inicio h1 {
+    color: var(--color-oscuro);
+}
+
+header#inicio .lead {
+    color: #5A5A52;
+}
+
+/* =========================================================
+   BOTONES
+   ========================================================= */
+.btn-primary {
+    background-color: var(--color-acento);
+    border-color: var(--color-acento);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #A8501F;
+    border-color: #A8501F;
+}
+.btn-outline-facebook:hover,
+.btn-outline-facebook:focus {
+    background-color: #3B5998;
+    border-color: #3B5998;
+    color: #fff;
+}
+.btn-outline-facebook {
+    color: #3B5998;
+    border-color: #3B5998;
+}
+
+.btn-outline-primary {
+    color: var(--color-acento);
+    border-color: var(--color-acento);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--color-acento);
+    border-color: var(--color-acento);
+}
+
+/* =========================================================
+   TARJETAS DE PRODUCTO
+   ========================================================= */
+.card {
+    border: 1px solid var(--color-borde);
+    border-radius: 0.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(31, 58, 56, 0.12);
+}
+
+.card-title {
+    font-family: var(--fuente-titulo);
+    color: var(--color-oscuro);
+}
+
+.fw-bold {
+    color: var(--color-acento);
+}
+
+/* =========================================================
+   SECCIÓN "POR QUÉ ELEGIRNOS" + ASIDE
+   ========================================================= */
+section.bg-light {
+    background-color: #F1EBDC !important;
+}
+
+aside .border {
+    border-color: var(--color-acento) !important;
+    border-width: 2px !important;
+    background-color: var(--color-fondo);
+}
+
+/* =========================================================
+   FORMULARIO
+   ========================================================= */
+fieldset {
+    border-color: var(--color-borde) !important;
+    background-color: #FFFFFF;
+}
+
+legend {
+    color: var(--color-oscuro);
+    font-family: var(--fuente-titulo);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--color-acento);
+    box-shadow: 0 0 0 0.2rem rgba(201, 100, 44, 0.2);
+}
+
+.form-check-input:checked {
+    background-color: var(--color-acento);
+    border-color: var(--color-acento);
+}
+
+.btn-toggle-password {
+    border-color: #CED4DA;
+}
+
+.btn-toggle-password:hover {
+    background-color: var(--color-fondo);
+}
+
+.icono-ojo {
+    font-size: 0.95rem;
+}
+
+/* ---- Validación: campos llenos/correctos vs. vacíos/incorrectos ----
+   Bootstrap ya agrega la palomita y la "x" como iconos de fondo
+   automáticamente cuando el form tiene la clase "was-validated";
+   aquí solo afinamos los colores para que combinen con la marca. */
+.form-control.is-valid,
+.form-select.is-valid {
+    border-color: #4C8C6B;
+}
+
+.form-control.is-valid:focus,
+.form-select.is-valid:focus {
+    box-shadow: 0 0 0 0.2rem rgba(76, 140, 107, 0.25);
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: var(--color-acento);
+}
+
+.form-control.is-invalid:focus,
+.form-select.is-invalid:focus {
+    box-shadow: 0 0 0 0.2rem rgba(201, 100, 44, 0.25);
+}
+
+.valid-feedback {
+    color: #4C8C6B;
+}
+
+.invalid-feedback {
+    color: #A8501F;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+footer {
+    background-color: var(--color-oscuro) !important;
+}
